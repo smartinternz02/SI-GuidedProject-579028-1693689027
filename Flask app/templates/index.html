@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <style>
+        *{
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: rgb(240, 82, 82);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        form{
+            display: flex;
+            background-color: white;
+            width: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .feature-names{
+            width: 100%;
+            display: flex;
+            justify-content: start;
+            margin-top: 1.5rem;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .model-input{
+            width: 95.5%;
+            margin-top: .5rem;
+            padding: .5rem 0;
+            padding-left: 1rem;
+            word-spacing: 1px;
+            letter-spacing: 1px;
+            border: 1px solid black;
+            outline: none;
+            border-radius: 2px;
+            color: black;
+            font-size: 12px;
+            line-height: 26px;
+        }
+        .btn{
+            font-size: bold ;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 5px;
+            border: 0px solid rgb(90, 187, 90);
+            background-color: rgb(90, 187, 90);
+            color: white;
+            width: 12%;
+            height: 2.1rem;
+            margin-top: 1.7rem;
+            cursor: pointer;
+            margin-left: 2rem;
+        }
+        .btn:hover{
+            background-color: rgb(76, 161, 76);
+            /* color: rgb(90, 187, 90); */
+        }
+        .container{
+            display: flex;
+            justify-content: start;
+            width: 100%;
+            /* padding-left: 3.6rem; */
+        }
+        nav{
+            width: 100%;
+            background-color: black;
+            height: 3rem;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        nav ul li{
+            color: white;
+            list-style: none;
+            font-size: 16px;
+        }
+        #prediction-form{
+            display: none;
+            width: 50%;
+            height: 80%;
+            /* border: 2px solid orange; */
+            background-color: white;
+            flex-direction: row;
+            box-shadow:  0 4px 8px rgba(0, 0, 0, 0.1);
+            /* justify-content: space-around; */
+            border-radius: 10px;
+            flex-direction: column;
+            padding: 2rem 2.5rem;
+        }
+        .intro{
+            background-color: white;
+            display: flex ;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0rem 5rem;
+            align-items: center;
+            margin: 0 20% ;
+            border-radius: 15px;
+            padding-top: 2.5rem;
+        }
+        .intro p {
+            font-size: 16px;
+            line-height: 19px;
+        }
+        .intro h2{
+            display: flex;
+            justify-content: start;
+            width: 100%;
+            margin: 2.5rem 0rem;
+            font-size: 30px;
+        }
+        .intro img{
+            margin: 2rem 0rem;
+            width: 55%;
+        }
+        .intro button{
+            background-color: rgb(48, 202, 48);
+            width: 18.2rem;
+            border: 2.7px solid  rgb(48, 202, 48);
+            color: white;
+            font-weight: 550;
+            border-radius: 5px;
+            height: 2.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            cursor: pointer;
+        }
+        .intro button:hover{
+            color: rgb(48, 202, 48) ;
+            background-color: white;
+        }
+        .img-set{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 2.5rem;
+        }
+        .seperator{
+            width: 50%;
+            padding: 0rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .select{
+            border: none;
+            border-bottom: 1px solid black;
+            width: 100%;
+            height: 2.2rem;
+            margin-top: 1.5rem;
+            padding-bottom: .5rem;
+            margin-bottom: 2rem;
+            padding-left: .2rem;
+        }
+        #options{
+            margin-top : 2rem;
+        }
+        #prediction-form h2{
+            padding-left: 2rem;
+            width: 100%;
+            margin-top: 1rem; 
+            margin-bottom: .5rem;
+            background-color: white;
+        }
+        .flex{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>Flask App</li>
+        </ul>
+    </nav>
+    <section class="intro" id="intro">
+        <h2>TELECOM CUSTOMER CHURN PREDICTION</h2>
+        <p>
+            Customer churn has become highly important for compaines because of increasing competition
+            among compaines,Increased importance of marketing stratiegies and conscious behaviour of customers in the recent years.
+            Curstomers can easily trend torward alternatiove servicies. Compaines must develop various stratiegies to prevent these possible trends , used. An efficient churn predictive model benefits companies in many ways . 
+            Early identification of customers likely tl leave may help to build cost effective ways in marketing stratiegies Customers retention campaigns might be limited to selected customers but it should cover most of the customer.
+            Incorrect predictions could result in a company lossibng progits because of the discounts offered to continuous subscribers.
+        </p>
+        <div class="img-set">
+            <img src="{{ url_for('static', filename='images/telco.png') }}" alt="Logo">
+
+            <button onclick="rout('prediction-form','intro')">Click me to continue with prediction</button>
+        </div>
+    </section>
+    <section id="prediction-form">
+        <h2>PREDICTION FORM</h2>
+        <form action="/predict" method="post" id="form">
+            <div class="flex">
+                <!-- <p>CreditScore,Geography,Gender,Age,Tenure,Balance,NumOfProducts,HasCrCard,IsActiveMember,EstimatedSalary</p> -->
+                <div class="seperator">
+                    <label class="feature-names">Credit Score :</label>
+                    <input type="text" name="CreditScore" id="" class="model-input" placeholder="Enter CreditScore">
+                    <label class="feature-names">Age : </label>
+                    <input type="text" name="Age" id="" class="model-input" placeholder="Enter Age">
+                    <label class="feature-names">Tenure :</label>
+                    <input type="text" name="Tenure" id="" class="model-input" placeholder="Enter Tenure">
+                    <label class="feature-names">Balance :</label>
+                    <input type="text" name="Balance" id="" class="model-input" placeholder="Enter Balance">
+                    <label class="feature-names">Estimated Salary :</label>
+                <input type="text" name="EstimatedSalary" id="" class="model-input" placeholder="Enter EstimatedSalary">
+            </div>
+            <div class="seperator" id="options">
+                <select class="select" name="Gender">
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <select class="select" name="NumOfProducts">
+                    <option value="" disabled selected>Enter No of Products</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <select class="select" name="HasCrCard">
+                    <option value="" disabled selected>Having a CR card</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <select class="select" name="IsActiveMember">
+                    <option value="" disabled selected>Select a value</option>
+                    <option value="Active">Active</option>
+                    <option value="InActive">InActive</option>
+                </select>
+                <select class="select" name="Country">
+                    <option value="" disabled selected>Select a country</option>
+                    <option value="france">France</option>
+                    <option value="spain">Spain</option>
+                    <option value="germany">Germany</option>
+                </select>
+            </div>
+        </div>
+            <div class="container">
+                <button class="btn" onclick="get_values()">submit</button>
+            </div>
+        </form>
+    </section>
+</body>
+<script>
+    const get_values = ()=>{
+    // CreditScore,Geography,Gender,Age,Tenure,Balance,NumOfProducts,HasCrCard,IsActiveMember,EstimatedSalary
+    // let CreditScore = document.querySelectorAll('.model-input')[0].value
+    // let Geography = document.querySelectorAll('.model-input')[1].value
+    // let Gender = document.querySelectorAll('.model-input')[2].value
+    // let Age = document.querySelectorAll('.model-input')[3].value
+    // let Tenure = document.querySelectorAll('.model-input')[4].value
+    // let Balance = document.querySelectorAll('.model-input')[5].value
+    // let NumOfProducts = document.querySelectorAll('.model-input')[6].value
+    // let HasCrCard = document.querySelectorAll('.model-input')[7].value
+    // let IsActiveMember = document.querySelectorAll('.model-input')[8].value
+    // let EstimatedSalary = document.querySelectorAll('.model-input')[9].value
+}
+const rout = (id1,id2)=>{
+    console.log('hello')
+    document.getElementById(`${id1}`).style.display = 'flex'
+    document.getElementById(`${id2}`).style.display = 'none'
+}
+</script>
+</html>

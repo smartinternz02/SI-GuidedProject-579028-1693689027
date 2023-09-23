@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommenation</title>
+</head>
+<style>
+    *{
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    h2{
+        font-size: 20px;
+    }
+    body{
+        background-color:  rgb(240, 82, 82);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .redirected{
+        background-color: white;
+        padding: 5rem;
+    }
+    button{
+        background-color: rgb(48, 202, 48);
+        font-weight: 550;
+        border: 2.5px solid rgb(48, 202, 48);
+        color: white;
+        padding: .7rem 1.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 1.5rem;
+    }
+    button:hover{
+        color: rgb(48, 202, 48);
+        background-color:white ;
+
+    }
+    
+</style>
+<body>
+    <section class="redirected">
+        <h1>TELECOM CUSTOMER CHURN PREDICTION</h1>
+        <div id="container"></div>
+        <h2 id="response"></h2>
+        <form action="/">
+            <button class="redirect">Make Prediction</button>
+        </form>
+    </section>
+</body>
+<script>
+    let prediction = "{{prediction}}"
+    document.getElementById('response').innerHTML = 'THE CHURN PREDICTION SAYS <u>{{prediction}}</u>'
+    if (prediction === 'YES'){
+        const img = document.createElement('img');
+        img.setAttribute('src', '{{ url_for("static", filename="images/churner.png") }}');
+        let container = document.getElementById('container');
+        container.appendChild(img);
+        img.setAttribute('alt', 'churner');
+    }else{
+        const img = document.createElement('img');
+        img.setAttribute('src', '{{ url_for("static", filename="images/non-churner.png") }}');
+        img.setAttribute('alt', 'non-churner');
+        let container = document.getElementById('container');
+        container.appendChild(img);
+    }
+</script>
+</html>
